@@ -35,22 +35,26 @@ from functools import reduce
 from operator import add
 
 def parser(inputs):
-    draws = tmp[0]
-    wot = tmp[2:20]
+    draws = inputs[0].split(',')
+    draws = [int(x) for x in draws]
+    boarddata = inputs[2:]
+    entries = [words for segments in boarddata for words in segments.split()]
+    entries = [int(x) for x in entries]
+    chunks = [entries[i:i+25] for i in range(0, len(entries), 25)]
     boards = []
-    buffer = []
-    out = []
-    for i in wot: 
-        if i == '': 
-            buf = reduce(add, buffer)
-            boards.append(board(boarddata=buf, drawdata=draws))
-            buffer = []
-            out.append(buf)
-        else: 
-            buffer.append(i)
-            print(buffer)
+    for i in chunks: 
+        boards.append(board(boarddata=i, drawdata=draws))
     return draws, boards
 
-d, b = parser(wot)
+d, b = parser(tmp)
 
 numbermoves = [x.play() for x in b]
+
+ind = numbermoves.index(min(numbermoves))
+winningboard = b[ind]
+
+winningboard.boardstate, winningboard.check
+
+state, check, num = winningboard.boardstate, winningboard.check, winningboard.winsafter
+unmarked = state[check == 0]
+score = sum(unmarked) * d[num-1]
