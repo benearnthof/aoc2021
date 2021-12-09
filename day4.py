@@ -58,3 +58,10 @@ winningboard.boardstate, winningboard.check
 state, check, num = winningboard.boardstate, winningboard.check, winningboard.winsafter
 unmarked = state[check == 0]
 score = sum(unmarked) * d[num-1]
+
+# part 2
+ind = numbermoves.index(max(numbermoves))
+losingboard = b[ind]
+state, check, num = losingboard.boardstate, losingboard.check, losingboard.winsafter
+unmarked = state[check == 0]
+score = sum(unmarked) * d[num-1]
